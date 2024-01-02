@@ -1,1 +1,1 @@
-This is about ES6 Basics in Javascript
+// This is about learning back end concepts at the new Atlas School
