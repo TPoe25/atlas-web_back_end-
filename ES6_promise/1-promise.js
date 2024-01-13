@@ -5,7 +5,7 @@ const getFullResponseFromAPI = (success) => new Promise((resolve, reject) => {
       body: 'Success',
     });
   } else {
-    reject(new Error('The fake Api is not working currently'));
+    reject(new Error('The fake API is not working currently'));
   }
 });
 
