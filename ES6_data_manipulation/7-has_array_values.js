@@ -1,7 +1,7 @@
 function hasValuesFromArray(set, arr) {
-    const allValuesExist = arr.every(value => set.has(value));
+  const allValuesExist = arr.every((value) => set.has(value));
 
-    return allValuesExist;
+  return allValuesExist;
 }
 
 export default hasValuesFromArray;
