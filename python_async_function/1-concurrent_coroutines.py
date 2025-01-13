@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import asyncio
 from typing import List
-from random import uniform
+import importlib
 
-# Import wait_random coroutine from previous file
-from _0_basic_async_syntax import wait_random # type: ignore
+
+# Dynamically import wait_random
+wait_random = getattr(importlib.import_module("0-basic_async_syntax"), "wait_random")
+
 
 """
 Module contains the `wait_n` coroutine that runs multiple `wait_random`
@@ -26,5 +28,7 @@ async def wait_n(n: int, max_delay: float) -> List[float]:
         List[float]: List of delays in ascending order.
     """
     tasks = [wait_random(max_delay) for _ in range(n)]
+    
     delays = await asyncio.gather(*tasks)
+    
     return sorted(delays)
