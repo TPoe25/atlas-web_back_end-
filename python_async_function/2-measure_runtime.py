@@ -2,16 +2,27 @@
 import asyncio
 import time
 from typing import List
-
 from _0_basic_async_syntax_ import wait_random
-from _1_concurrent_coroutines_ import wait_n
+from 1-concurrent_coroutines_ import wait_n
 
 def measure_time(n: int, max_delay: int) -> float:
-    start_time = time.time()
+    """
+    Measure the tiem it takes to run `wait_n` coroutines with `n` coroutines
+    and `max_delay` seconds or delays.
+
+    Args:
+        n (int): _description_
+        max_delay (int): _description_
+
+    Returns:
+        float: _description_
+    """
+    
+    start_time: float = time.time()
 
     asyncio.run(wait_n(n, max_delay))
 
-    end_time = time.time()
+    end_time: float = time.time()
 
-    total_time = end_time - start_time
+    total_time: float = end_time - start_time
     return total_time / n
