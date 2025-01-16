@@ -2,8 +2,8 @@
 import asyncio
 import time
 from typing import List
-from _0_basic_async_syntax_ import wait_random
-from 1-concurrent_coroutines_ import wait_n
+from .0-basic_async_syntax import wait_random
+from ._1concurrent_coroutines import wait_n
 
 def measure_time(n: int, max_delay: int) -> float:
     """
@@ -25,4 +25,5 @@ def measure_time(n: int, max_delay: int) -> float:
     end_time: float = time.time()
 
     total_time: float = end_time - start_time
+    
     return total_time / n
