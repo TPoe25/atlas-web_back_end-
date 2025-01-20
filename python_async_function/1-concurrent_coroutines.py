@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-import asyncio
-from typing import List
-import importlib
-
-
-# Dynamically import wait_random
-wait_random = getattr(importlib.import_module("0-basic_async_syntax"), "wait_random")
-
-
 """
-Module contains the `wait_n` coroutine that runs multiple `wait_random`
-coroutines concurrently w/ a max delay and returns their results in
-ascending order. Demonstrates asynchronous programming using asyncio and random
+Demonstrates asynchronous programming using asyncio and random
 delays
 """
+
+from typing import List
+import asyncio
+import importlib
+# Dynamically import wait_random
+wait_random = getattr(importlib.import_module("0-basic_async_syntax"),
+                      "wait_random")
 
 
 async def wait_n(n: int, max_delay: float) -> List[float]:
@@ -27,8 +23,13 @@ async def wait_n(n: int, max_delay: float) -> List[float]:
     Returns:
         List[float]: List of delays in ascending order.
     """
-    tasks = [wait_random(max_delay) for _ in range(n)]
+    delays = []
+    for _ in range(n):
+        delays.append(asyncio.create_task(wait_random(max_delay)))
+        
+        completed_delay = []
+        for task in asyncio.as_completed(delays):
+            completed_delay.append(await task)
+            
+        return completed_delay
     
-    delays = await asyncio.gather(*tasks)
-    
-    return sorted(delays)
