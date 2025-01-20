@@ -1,4 +1,6 @@
-""" async_copmrehension ran from measure_runtime """
+#!/usr/bin/env python3
+""" async_copmrehension ran from measure_runtime
+"""
 
 
 import asyncio
@@ -8,6 +10,7 @@ from typing import Coroutine
 async_comprehension: Coroutine = getattr(
     importlib.import_module("1-async_comprehension"), "async_comprehension"
 )
+
 
 async def measure_runtime() -> float:
     """ Measure the runtime of async_generator and return it. """
