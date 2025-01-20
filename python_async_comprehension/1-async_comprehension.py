@@ -4,15 +4,13 @@
 
 
 import asyncio
-from typing import AsyncGenerator, List
+import importlib
+from typing import List
+async_generator = getattr(importlib.import_module("0-async_generator"),
+                          "async_generator")
 
 
-class Generator:
-    async def __aiter__(self):
-        for i in range(10):
-            yield i
 async def async_comprehension() -> List[float]:
-    
-    """ An async comprehension that generates 10 random numbers between 0 and 10.
-    """
-    return [num async for num in Generator()]
+    """An async comprehension that generates 10 random numbers 0 and 10"""
+    result = [num async for num in async_generator()]
+    return result
