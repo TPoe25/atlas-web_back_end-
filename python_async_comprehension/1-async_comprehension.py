@@ -12,4 +12,7 @@ class Generator:
         for i in range(10):
             yield i
 async def async_comprehension() -> List[float]:
+    
+    """ An async comprehension that generates 10 random numbers between 0 and 10.
+    """
     return [num async for num in Generator()]
