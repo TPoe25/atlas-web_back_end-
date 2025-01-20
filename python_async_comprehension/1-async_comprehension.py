@@ -1,6 +1,8 @@
-#!/usr/bin/env python3
-from typing import List
-from 0_async_generator import async_generator
+from typing import AsyncGenerator, List
 
+class Generator:
+    async def __aiter__(self):
+        for i in range(10):
+            yield i
 async def async_comprehension() -> List[float]:
-    return[num async for num in async_generator()]
+    return [num async for num in Generator()]
