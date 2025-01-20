@@ -14,8 +14,8 @@ async_comprehension: Coroutine = getattr(
 
 async def measure_runtime() -> float:
     """ Measure the runtime of async_generator and return it. """
-    
-    
+
+
     start_time = time.perf_counter()
     await asyncio.gather(*(async_comprehension() for _ in range(4)))
     end_time = time.perf_counter()
