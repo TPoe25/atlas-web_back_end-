@@ -1,6 +1,13 @@
+#!/usr/bin/env python3i
+"""
+ A coroutine that waits for a random delay btwn 0 n max_delay secs n rtn delay
+"""
+
+
 from typing import List
 import asyncio
 import random
+
 
 async def wait_random(max_delay: int) -> float:
     delay = random.uniform(0, max_delay)
