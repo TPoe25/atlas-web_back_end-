@@ -2,7 +2,6 @@
 """ An async generator is a function that returns an async generator iterator.
 """
 
-
 import asyncio
 import random
 from typing import AsyncGenerator
