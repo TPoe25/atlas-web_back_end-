@@ -48,3 +48,21 @@ class MRUCache(BaseCaching):
             print("DISCARD:", discard)
         self.cache_data[key] = item
         self.mru_queue.append(key)
+
+    def get(self, key):
+        """
+        Retrieve an item from the cache.
+
+        If the key exists in the cache, move it to the front of the MRU queue.
+
+        Parameters:
+        key (str): The key to look up in the cache.
+
+        Returns:
+        Any: The item associated with the key, or None if not found.
+        """
+        if key in self.cache_data:
+            self.mru_queue.remove(key)
+            self.mru_queue.append(key)
+            return self.cache_data[key]
+        return None
