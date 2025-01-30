@@ -125,4 +125,9 @@ class Server:
             Dict[str, Any]: A dictionary with the pagination information.
         """
         assert index_range is not None and isinstance(index_range, int) and index_range > 0
-        assert page_size >
+        assert page_size > 0,
+        
+        dataset = self.indexed_dataset
+        data_len = len(dataset)
+        
+        assert index < dataset_len,
