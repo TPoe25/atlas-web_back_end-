@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
+"""
+Defines a Last-In-First-Out (LIFO) caching system.
+"""
 
 from base_caching import BaseCaching
+
 
 class LIFOCache(BaseCaching):
     """
