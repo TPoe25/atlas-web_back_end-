@@ -12,6 +12,9 @@ class FIFOCache(BaseCaching):
     """
 
     def __init__(self):
+        """
+        Initialize FIFOCache instance.
+        """
         super().__init__()
         self.queue = []
 
