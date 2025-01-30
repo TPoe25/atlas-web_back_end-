@@ -10,21 +10,17 @@ class FIFOCache(BaseCaching):
     """
     FIFOCache class inherit from BaseCaching and implement FIFO caching system.
     """
+
     def __init__(self):
-        """
-        __init__():
-            Initialize FIFOCache instance, w/ queue to maintain order of keys.
-        """
         super().__init__()
         self.queue = []
 
     def put(self, key, item):
         """
-        put(key, item):
-            Adds an item to the cache with the specified key.
-            If cache exceeds maximum number of items, it remove oldest item.
-            If the key already exists, it updates the item and moves the key
-            to the end of the queue.
+        Adds an item to the cache with the specified key.
+        If cache exceeds maximum number of items, it remove oldest item.
+        If the key already exists, it updates the item and moves the key
+        to the end of the queue.
 
         Args:
             key (str): The key to associate with the item.
@@ -45,6 +41,13 @@ class FIFOCache(BaseCaching):
         self.queue.append(key)
 
     def get(self, key):
-        if key is None or key not in self.cache_data:
-            return None
-        return self.cache_data[key]
+        """
+        Retrieves an item from the cache by key.
+
+        Args:
+            key (str): The key of the item to retrieve.
+
+        Returns:
+            Any: The value associated with the key, or None if the key
+        """
+        return self.cache_data.get[key, None]
