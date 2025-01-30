@@ -38,9 +38,10 @@ class LIFOCache(BaseCaching):
         if key in self.cache_data:
             self.lifo_queue.remove(key)
         elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            discard = self.lifo_queue.pop(0)
+            discard = self.lifo_queue.pop(-1)
             del self.cache_data[discard]
             print("DISCARD:", discard)
+
         self.cache_data[key] = item
         self.lifo_queue.append(key)
 
@@ -57,6 +58,4 @@ class LIFOCache(BaseCaching):
         """
         if key is None or key not in self.cache_data:
             return None
-        self.lru_queue.remove(key)
-        self.lru_queue.append(key)
         return self.cache_data[key]
