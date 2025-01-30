@@ -27,7 +27,6 @@ class Server:
     """
     Server class to paginate a database of popular baby names.
     """
-    
     DATA_FILE = "Popular_Baby_Names.csv"
     
     def __init__(self):
@@ -41,11 +40,10 @@ class Server:
             List[List]: A list of the dataset rows.
         """
         if self.__dataset is None:
-            with open(self.DATA_FILE, newline='', encoding='utf-8') as f:
+            with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
-        
         return self.__dataset
     
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
@@ -65,5 +63,7 @@ class Server:
         start_index, end_index = index_range(page, page_size)
         dataset = self.dataset()
         
+        if start_index >= len(dataset):
+            return []
+        
         return dataset[start_index:end_index] if start_index < len(dataset) else []
-    
