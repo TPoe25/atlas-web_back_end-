@@ -11,6 +11,13 @@ class LRUCache(BaseCaching):
     A class that implements a Least Recently Used (LRU) caching system.
     Inherits from BaseCaching.
     """
+    def __init__(self):
+        """
+        Initialize the LRU cache.
+        Calls the parent class constructor and initializes an empty LRU queue.
+        """
+        super().__init__()
+        self.lru_queue = []
 
     def put(self, key, item):
         """
