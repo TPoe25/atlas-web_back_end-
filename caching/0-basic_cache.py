@@ -2,20 +2,29 @@
 
 from base_caching import BaseCaching
 
-def __init__(self):
-    """
-    Initialize the cache.
-    """
-    super().__init__()
-    self.queue = []
 class BasicCache(BaseCaching):
+    """ BasicCache class defines basic caching system w/o limit """
     def put(self, key, item):
+        """
+        Put an item into the cache.
+        Args:
+            self: instance of BasicCache class
+            key: The key to identify the item in the cache.
+            item: The value to be stored in the cache.
+        """
         if key is None or item is None:
             return
         self.cache_data[key] = item
-        self.queue = item
         
     def get(self, key):
-        if key is None or key not in self.cache_data:
-            return None
-        (self.cache_data[key])
+        """
+        returns the item in the cache
+
+        Args:
+            self: instance of BasicCache class
+            key: key to the item in cache
+
+        Returns:
+            value of the item in cache
+        """
+        return self.cache_data.get(key)
