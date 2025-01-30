@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Defines a Most Recently Used (MRU) caching system.
+"""
 
 
 from base_caching import BaseCaching

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
+"""
+Defines a Least Recently Used (LRU) caching system.
+"""
 
 from base_caching import BaseCaching
+
 
 class LRUCache(BaseCaching):
     """
