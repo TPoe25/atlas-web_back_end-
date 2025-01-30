@@ -9,12 +9,6 @@ from base_caching import BaseCaching
 class FIFOCache(BaseCaching):
     """
     FIFOCache class inherit from BaseCaching and implement FIFO caching system.
-
-    Methods:
-        
-        
-        get(key):
-            Retrieve item from the cache by key. Returns None if not found.
     """
     def __init__(self):
         """
