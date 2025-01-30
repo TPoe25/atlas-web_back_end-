@@ -48,3 +48,10 @@ class MRUCache(BaseCaching):
             print("DISCARD:", discard)
         self.cache_data[key] = item
         self.mru_queue.append(key)
+
+    def get(self, key):
+        if key is None or key not in self.cache_data:
+            return None
+        self.mru_queue.remove(key)
+        self.mru_queue.append(key)
+        return self.cache_data[key]
