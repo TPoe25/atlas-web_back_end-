@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+FIFO Cache module defines a caching system that removes the oldest item
+"""
 
 from base_caching import BaseCaching
 
