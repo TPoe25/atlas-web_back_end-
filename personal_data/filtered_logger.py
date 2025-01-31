@@ -92,14 +92,11 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        NotImplementedError
         """
         Formats a record for display.
 
         Arguments:
-            self (RedactingFormatter): The RedactingFormatter object.
             record (logging.LogRecord): The record to format.
-            NotImplementedError: An error thats raised when an abstract method
 
         Returns:
             str: The formatted record.
