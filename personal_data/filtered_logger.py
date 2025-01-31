@@ -58,7 +58,7 @@ class RedactingFormatter(logging.Formatter):
 
         Arguments:
             fields (List[str]): list of string representing all fields filtered
-            redaction (str): A string representing sequence to replace each field.
+            redaction (str): A string representing sequence to replace field.
             message (str): A string representing log message.
             separator (str): A string representing separator for each field.
             format (str): A string representing the format of the log message.
