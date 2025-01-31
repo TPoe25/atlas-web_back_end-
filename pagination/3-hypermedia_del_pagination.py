@@ -6,10 +6,11 @@ Deletion-resilient hypermedia pagination
 import csv
 from typing import List, Dict
 
+
 class Server:
     """
     Server class for paginating and managing a database of popular baby names.
-    Class that gives functionality to load, cache, and paginate data from a CSV file
+    Class gives functionality to load, cache, paginate data from a CSV file
     containing popular baby names. Includes deletion-resilient pagination.
     """
     DATA_FILE = "Popular_Baby_Names.csv"
