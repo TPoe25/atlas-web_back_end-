@@ -4,11 +4,12 @@ This module contains a class that filters out sensitive information from logs.
 """
 
 import re
+import logging
 from typing import List
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
-                    separator: str) -> str:
+                 separator: str) -> str:
     """
     Returns a log message with sensitive information filtered out.
 
@@ -30,9 +31,6 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return separator.join(items)
 
 
-import logging
-
-
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -46,7 +44,7 @@ class RedactingFormatter(logging.Formatter):
         Initializes RedactingFormatter object
 
         Arguments:
-            fields (List[str]): list of strings representing all fields to filter.
+            fields (List[str]): list of string representing all fields filtered
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
