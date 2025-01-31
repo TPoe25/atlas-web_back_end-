@@ -31,6 +31,16 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
 class RedactingFormatter(logging.Formatter):
     """
+    Attributes:
+        REDACTION (str): The string used to replace sensitive information.
+        FORMAT (str): The format string for log messages.
+        SEPARATOR (str): The separator used to split log messages into fields.
+
+    Methods:
+        __init__(fields: List[str]):
+
+    format(record: logging.LogRecord) -> str:
+        Format a log record, redacting sensitive fields.
     Redacting Formatter class for logging, filtering out PII data.
     """
 
