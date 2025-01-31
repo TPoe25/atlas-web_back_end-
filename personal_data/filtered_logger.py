@@ -22,13 +22,11 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     Returns:
         str: The log message with information filtered out.
     """
-
-    items = message.split(separator)
-    for i, item in enumerate(items):
-        for field in fields:
-            if item.startswith(field + "="):
-                items[i] = field + "=" + redaction
-    return separator.join(items)
+    return re.sub(
+        fr'({"|".join(fields)})=[^{separator}]*',
+        lambda match: match.group(1) + "=" + redaction,
+        message
+    )
 
 
 class RedactingFormatter(logging.Formatter):
