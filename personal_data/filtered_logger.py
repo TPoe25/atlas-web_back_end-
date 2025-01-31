@@ -5,9 +5,16 @@ This module contains a class that filters out sensitive information from logs.
 
 import re
 import logging
-from typing import List
+from typing import List, Tuple
+
+# Import RedactingFormatter and filter_datum
+RedactingFormatter = __import__('filtered_logger').RedactingFormatter
+
+# Define PII fields that should be redacted in logs
+PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
 
 
+# Define filter_datum function
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """
@@ -29,6 +36,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     )
 
 
+# Define RedactingFormatter class
 class RedactingFormatter(logging.Formatter):
     """
     Redacting Formatter class
@@ -45,7 +53,6 @@ class RedactingFormatter(logging.Formatter):
     Arguments:
         record (logging.LogRecord): The record to format.
     """
-
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
@@ -80,3 +87,26 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super().format(record)
+
+
+def get_logger() -> logging.Logger:
+    """
+    Creates and configures a logger named 'user_data'.
+
+    - Logs only up to logging.INFO level.
+    - Does not propagate messages to other loggers.
+    - Uses a StreamHandler with RedactingFormatter to filter PII.
+
+    Returns:
+        logging.Logger: Configured logger instance.
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    return logger
