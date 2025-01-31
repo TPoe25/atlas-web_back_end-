@@ -5,6 +5,9 @@ This module provides a logger that redacts sensitive PII data.
 
 import logging
 import re
+import os
+import mysql.connector
+from mysql.connector import Error
 from typing import List, Tuple
 
 # Define PII fields that should be redacted in logs
@@ -94,3 +97,30 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(stream_handler)
     return logger
+
+def get_db():
+    """Return a connector to the MySQL database."""
+    try:
+        # Fetch credentials from environment variables
+        username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+        password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+        host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+        db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
+        if not db_name:
+            raise ValueError("Database name (PERSONAL_DATA_DB_NAME) must be set in environment variables")
+
+        # Establish the connection
+        connection = mysql.connector.connect(
+            host=host,
+            user=username,
+            password=password,
+            database=db_name
+        )
+
+        if connection.is_connected():
+            print("Successfully connected to the database.")
+            return connection
+    except Error as e:
+        print(f"Error: {e}")
+        return None
