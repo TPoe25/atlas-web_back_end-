@@ -14,6 +14,26 @@ RedactingFormatter = __import__('filtered_logger').RedactingFormatter
 PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
 
 
+# Define get_logger function
+def get_logger() -> logging.Logger:
+    """
+    Returns a logging object.
+
+    Returns:
+        logging.Logger: A logging object.
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    return logger
+
+
 # Define filter_datum function
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
@@ -87,26 +107,3 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super().format(record)
-
-
-def get_logger() -> logging.Logger:
-    """
-    Creates and configures a logger named 'user_data'.
-
-    - Logs only up to logging.INFO level.
-    - Does not propagate messages to other loggers.
-    - Uses a StreamHandler with RedactingFormatter to filter PII.
-
-    Returns:
-        logging.Logger: Configured logger instance.
-    """
-    logger = logging.getLogger("user_data")
-    logger.setLevel(logging.INFO)
-    logger.propagate = False
-
-    stream_handler = logging.StreamHandler()
-    formatter = RedactingFormatter(fields=PII_FIELDS)
-    stream_handler.setFormatter(formatter)
-
-    logger.addHandler(stream_handler)
-    return logger
