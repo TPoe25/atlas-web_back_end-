@@ -8,7 +8,8 @@ import re
 import os
 import mysql.connector
 from mysql.connector import Error
-from typing import List, Tuple
+from mysql.connector.connection import MySQLConnection
+from typing import List, Tuple, Optional
 
 # Define PII fields that should be redacted in logs
 PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
@@ -99,20 +100,22 @@ class RedactingFormatter(logging.Formatter):
         return logger
 
 
-    def get_db():
-        """Return a connector to the MySQL database."""
+    def get_db() -> Optional[MySQLConnection]:
+        """
+        Return a connector to the MySQL database.
+        """
         try:
             # Fetch credentials from environment variables
-            username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
-            password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
-            host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
-            db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+            username: str = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+            password: str = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+            host: str = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+            db_name: Optional[str] = os.getenv('PERSONAL_DATA_DB_NAME')
 
             if not db_name:
                 raise ValueError("Database name (PERSONAL_DATA_DB_NAME) must be set in environment variables")
 
             # Establish the connection
-            connection = mysql.connector.connect(
+            connection: MySQLConnection = mysql.connector.connect(
                 host=host,
                 user=username,
                 password=password,
