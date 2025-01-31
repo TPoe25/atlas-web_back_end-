@@ -72,7 +72,9 @@ class RedactingFormatter(logging.Formatter):
         Formats a record for display.
 
         Arguments:
+            self (RedactingFormatter): The RedactingFormatter object.
             record (logging.LogRecord): The record to format.
+            NotImplementedError: An error thats raised when an abstract method
 
         Returns:
             str: The formatted record.
