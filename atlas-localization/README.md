@@ -1,1 +1,1 @@
-## This is about Localization
+## This is about Localization and how it works.
