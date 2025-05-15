@@ -1,1 +1,0 @@
-This is a more html advanced project, using ES6

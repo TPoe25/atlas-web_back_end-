@@ -1,1 +1,0 @@
-## This is about Localization and how it works.
