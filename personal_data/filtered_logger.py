@@ -6,6 +6,7 @@ This module provides a logger that redacts sensitive PII data.
 import logging
 import re
 import os
+import mysql
 import mysql.connector
 from mysql.connector import Error
 from mysql.connector.connection import MySQLConnection
@@ -33,7 +34,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
 
 
-class RedactingFormatter(logging.Formatter):
+class RedactingFormatter(logging.Formatter):    
     """
     Attributes:
         REDACTION (str): The string used to replace sensitive information.
@@ -77,54 +78,59 @@ class RedactingFormatter(logging.Formatter):
         return super().format(record)
 
 
-    def get_logger() -> logging.Logger:
-        """
-        Creates and configures a logger named 'user_data'.
+def get_logger() -> logging.Logger:
+    """
+    Creates and configures a logger named 'user_data'.
 
-        - Logs only up to logging.INFO level.
-        - Does not propagate messages to other loggers.
-        - Uses a StreamHandler with RedactingFormatter to filter PII.
+    - Logs only up to logging.INFO level.
+    - Does not propagate messages to other loggers.
+    - Uses a StreamHandler with RedactingFormatter to filter PII.
 
-        Returns:
-            logging.Logger: Configured logger instance.
-        """
-        logger = logging.getLogger("user_data")
-        logger.setLevel(logging.INFO)
-        logger.propagate = False
+    Returns:
+        logging.Logger: Configured logger instance.
+    """
+    
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
 
-        stream_handler = logging.StreamHandler()
-        formatter = RedactingFormatter(fields=PII_FIELDS)
-        stream_handler.setFormatter(formatter)
+    stream_handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    stream_handler.setFormatter(formatter)
 
-        logger.addHandler(stream_handler)
-        return logger
+    logger.addHandler(stream_handler)
+    return logger
 
 
-    def get_db() -> Optional[MySQLConnection]:
-        """
-        Return a connector to the MySQL database.
-        """
-        try:
-            # Fetch credentials from environment variables
-            username: str = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
-            password: str = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
-            host: str = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
-            db_name: Optional[str] = os.getenv('PERSONAL_DATA_DB_NAME')
+def get_db() -> Optional[MySQLConnection]:
+    """
+    Return a connector to the MySQL database.
+    """
+    try:
+        # Fetch credentials from environment variables
+        username: str = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+        password: str = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+        host: str = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+        db_name: Optional[str] = os.getenv('PERSONAL_DATA_DB_NAME')
 
-            if not db_name:
-                raise ValueError("Database name (PERSONAL_DATA_DB_NAME) must be set in environment variables")
+        if not db_name:
+            raise ValueError("Database name (PERSONAL_DATA_DB_NAME) must be set in environment variables")
 
-            # Establish the connection
-            connection: MySQLConnection = mysql.connector.connect(
-                host=host,
-                user=username,
-                password=password,
-                database=db_name
-            )
+        # Establish the connection
+        connection: MySQLConnection = mysql.connector.connect(
+            host=host,
+            user=username,
+            password=password,
+            database=db_name
+        )
 
-            if connection.is_connected():
-                print("Successfully connected to the database.")
-                return connection
-        except Error as e:
-            print(f"Error: {e}")
-            return None
+        if connection.is_connected():
+            print("Successfully connected to the database.")
+            return connection
+    except Error as e:
+        print(f"Error: {e}")
+        return None
+
+
+if __name__ == '__main__':
+    main()
