@@ -3,7 +3,7 @@
 Route module for the API
 """
 from flask import Flask, request, jsonify, abort, make_response
-from auth import Auth
+from Basic_authentication.api.v1.auth.auth import Auth
 
 
 app = Flask(__name__)
