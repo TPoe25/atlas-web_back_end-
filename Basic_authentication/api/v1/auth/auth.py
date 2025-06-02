@@ -6,10 +6,7 @@
 Handles authentication logic
 """
 import uuid
-from user_authentication_service.user import User
-from user_authentication_service.db import DB
-import bcrypt
-from sqlalchemy.orm.exc import NoResultFound
+from db import DB
 
 
 class Auth:

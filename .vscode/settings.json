@@ -5,6 +5,7 @@
         "./python_async_function/1-",
         "./python_async_function/0-",
         "./python_async_function/0-",
-        "./python_async_function/0-"
+        "./python_async_function/0-",
+        "./user_authentication_service"
     ]
 }
