@@ -3,6 +3,7 @@
 This module provides a logger that redacts sensitive PII data.
 """
 
+from ast import main
 import logging
 import re
 import os
