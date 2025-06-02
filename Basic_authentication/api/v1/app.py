@@ -2,30 +2,30 @@
 """
 Route module for the API
 """
-from flask import Flask, request, jsonify, abort, make_response
-from Basic_authentication.api.v1.auth.auth import Auth
-
+from flask import Flask, jsonify
+from api.v1.views import app_views
+from os import getenv
+from flask_cors import CORS
 
 app = Flask(__name__)
-auth = Auth()
+app.register_blueprint(app_views)
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
-@app.route('/sessions', methods=['POST'])
-def login():
-    """Handle user login and create session"""
-    email = request.form.get('email')
-    password = request.form.get('password')
+auth = None
+auth_type = getenv("AUTH_TYPE")
 
-    if not email or not password:
-        # Missing email or password
-        abort(400, "Email and password are required")
+if auth_type == "basic_auth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
+else:
+    from api.v1.auth.auth import Auth
+    auth = Auth()
 
-    if not auth.valid_login(email, password):
-        # Wrong email or password
-        abort(401)
+@app.errorhandler(401)
+def unauthorized(error):
+    """Handle unauthorized access"""
+    return jsonify({"error": "unauthorized"}), 401
 
-    session_id = auth.create_session(email)
-
-    response = make_response(jsonify({"email": email, "message": "logged in"}))
-    response.set_cookie("session_id", session_id)
-
-    return response
+@app.errorhandler(403)
+def forbidden(error):
+    return jsonify({"error": "forbidden"}), 403
