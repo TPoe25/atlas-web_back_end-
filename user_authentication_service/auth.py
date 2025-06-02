@@ -9,6 +9,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
+
 class Auth:
     def __init__(self):
         self._db = DB()
@@ -63,10 +64,10 @@ class Auth:
             user = self._db.find_user_by(email=email)
             token = self._generate_uuid()
             self._db.update_user(user.id, reset_token=token)
-            return token    
+            return token
         except NoResultFound:
             raise ValueError
-        
+
     def update_password(self, reset_token: str, password: str) -> None:
         try:
             user = self._db.find_user_by(reset_token=reset_token)

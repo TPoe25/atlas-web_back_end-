@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
+
 class DB:
     def __init__(self) -> None:
         self._engine = create_engine("sqlite:///a.db", echo=False)
