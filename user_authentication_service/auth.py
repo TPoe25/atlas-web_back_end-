@@ -15,7 +15,10 @@ class Auth:
         self._db = DB()
 
     def _hash_password(self, password: str) -> bytes:
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        return bcrypt.hashpw(
+            password.encode('utf-8'),
+            bcrypt.gensalt()
+        )
 
     def register_user(self, email: str, password: str) -> User:
         try:
@@ -28,7 +31,10 @@ class Auth:
     def valid_login(self, email: str, password: str) -> bool:
         try:
             user = self._db.find_user_by(email=email)
-            return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
+            return bcrypt.checkpw(
+                password.encode('utf-8'),
+                user.hashed_password
+            )
         except Exception:
             return False
 
@@ -39,7 +45,10 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             session_id = self._generate_uuid()
-            self._db.update_user(user.id, session_id=session_id)
+            self._db.update_user(
+                user.id,
+                session_id=session_id
+            )
             return session_id
         except NoResultFound:
             return None
@@ -63,7 +72,10 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             token = self._generate_uuid()
-            self._db.update_user(user.id, reset_token=token)
+            self._db.update_user(
+                user.id,
+                reset_token=token
+            )
             return token
         except NoResultFound:
             raise ValueError
@@ -72,6 +84,10 @@ class Auth:
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             hashed = self._hash_password(password)
-            self._db.update_user(user.id, hashed_password=hashed, reset_token=None)
+            self._db.update_user(
+                user.id,
+                hashed_password=hashed,
+                reset_token=None
+            )
         except NoResultFound:
             raise ValueError("Invalid reset token")
