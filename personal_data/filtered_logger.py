@@ -35,7 +35,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
 
 
-class RedactingFormatter(logging.Formatter):    
+class RedactingFormatter(logging.Formatter):
     """
     Attributes:
         REDACTION (str): The string used to replace sensitive information.
@@ -90,7 +90,7 @@ def get_logger() -> logging.Logger:
     Returns:
         logging.Logger: Configured logger instance.
     """
-    
+
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -115,7 +115,10 @@ def get_db() -> Optional[MySQLConnection]:
         db_name: Optional[str] = os.getenv('PERSONAL_DATA_DB_NAME')
 
         if not db_name:
-            raise ValueError("Database name (PERSONAL_DATA_DB_NAME) must be set in environment variables")
+            raise ValueError(
+                "Database name(PERSONAL_DATA_DB_NAME) \
+                must be set in environment variables"
+            )
 
         # Establish the connection
         connection: MySQLConnection = mysql.connector.connect(
@@ -127,7 +130,7 @@ def get_db() -> Optional[MySQLConnection]:
 
         if connection.is_connected():
             print("Successfully connected to the database.")
-            return connection
+        return connection
     except Error as e:
         print(f"Error: {e}")
         return None
