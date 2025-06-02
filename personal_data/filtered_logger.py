@@ -135,32 +135,5 @@ def get_db() -> Optional[MySQLConnection]:
         print(f"Error: {e}")
         return None    
 
-def main():
-    """
-    Connects to the DB, gets user data, and logs it while hiding PII fields.
-    """
-    db = get_db()
-    if not db:
-        return
-
-    logger = get_logger()
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM users;")
-
-    # Get the column names like 'name', 'email', etc.
-    columns = [col[0] for col in cursor.description]
-
-    for row in cursor:
-        # Turn each row into "column=value" format
-        message = "; ".join(
-            f"{col}={str(val)}" for col, val in zip(columns, row)
-        )
-        message += ";"
-        logger.info(message)
-
-    cursor.close()
-    db.close()
-
-
 if __name__ == '__main__':
     main()
