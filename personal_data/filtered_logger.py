@@ -3,11 +3,9 @@
 This module provides a logger that redacts sensitive PII data.
 """
 
-from ast import main
 import logging
 import re
 import os
-import mysql
 import mysql.connector
 from mysql.connector import Error
 from mysql.connector.connection import MySQLConnection
@@ -37,16 +35,6 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
 class RedactingFormatter(logging.Formatter):
     """
-    Attributes:
-        REDACTION (str): The string used to replace sensitive information.
-        FORMAT (str): The format string for log messages.
-        SEPARATOR (str): The separator used to split log messages into fields.
-
-    Methods:
-        __init__(fields: List[str]):
-
-    format(record: logging.LogRecord) -> str:
-        Format a log record, redacting sensitive fields.
     Redacting Formatter class for logging, filtering out PII data.
     """
 
@@ -90,7 +78,6 @@ def get_logger() -> logging.Logger:
     Returns:
         logging.Logger: Configured logger instance.
     """
-
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -116,8 +103,8 @@ def get_db() -> Optional[MySQLConnection]:
 
         if not db_name:
             raise ValueError(
-                "Database name(PERSONAL_DATA_DB_NAME) \
-                must be set in environment variables"
+                "Database name (PERSONAL_DATA_DB_NAME) "
+                "must be set in environment variables"
             )
 
         # Establish the connection
@@ -133,7 +120,8 @@ def get_db() -> Optional[MySQLConnection]:
         return connection
     except Error as e:
         print(f"Error: {e}")
-        return None    
+        return None
+
 
 if __name__ == '__main__':
-    main()
+    pass
