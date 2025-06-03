@@ -11,7 +11,7 @@ from user import Base, User
 
 
 class DB:
-    """ DB is a database handler class for managing user authentication data using SQLAlchemy."""
+    """ DB is a database handler for  user authentication data w/ SQLAlchemy"""
     def __init__(self) -> None:
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
