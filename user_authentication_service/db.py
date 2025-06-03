@@ -11,26 +11,7 @@ from user import Base, User
 
 
 class DB:
-    """
-    DB is a database handler class for managing user authentication data using SQLAlchemy.
-
-    Attributes:
-        _engine: SQLAlchemy engine instance connected to a SQLite database.
-        __session: SQLAlchemy session instance (lazily initialized).
-
-    Methods:
-        add_user(email: str, hashed_password: str) -> User:
-            Adds a new user with the specified email and hashed password to the database.
-
-        find_user_by(**kwargs) -> User:
-            Finds and returns a user matching the provided keyword arguments.
-            Raises InvalidRequestError if no arguments are provided or if the query is invalid.
-            Raises NoResultFound if no user matches the criteria.
-
-        update_user(user_id: int, **kwargs) -> None:
-            Updates attributes of the user with the given user_id using provided keyword arguments.
-            Raises ValueError if an invalid attribute is specified.
-    """
+    """ DB is a database handler class for managing user authentication data using SQLAlchemy."""
     def __init__(self) -> None:
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
@@ -39,18 +20,21 @@ class DB:
 
     @property
     def _session(self):
+        """Return the current session, creating it if it does not exist."""
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
+        """ Add a new user to the database."""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
+        """"Find a user by given attributes."""
         if not kwargs:
             raise InvalidRequestError()
         try:
@@ -62,6 +46,7 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
+        """Update user attributes by user ID."""
         user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             if not hasattr(user, key):
