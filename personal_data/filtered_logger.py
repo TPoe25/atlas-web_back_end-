@@ -122,6 +122,5 @@ def get_db() -> Optional[MySQLConnection]:
         print(f"Error: {e}")
         return None
 
-
 if __name__ == '__main__':
     pass
