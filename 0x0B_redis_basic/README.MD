@@ -1,0 +1,1 @@
+Project about redis basics.
