@@ -14,7 +14,7 @@ class Cache:
 
     def __init__(self):
         """Initialize the Cache with a Redis connection"""
-        self.redis_client = redis.Redis(host='localhost', port=6379, db=0,
+        self.__redis_client = redis.Redis(host='localhost', port=6379, db=0,
                                         decode_responses=True)
 
     def save_data(self, key: str, value: str, time_seconds: Optional[int]
