@@ -32,7 +32,7 @@ class Cache:
         self._redis.set(key, data)
         return key
     
-    def get(self, key: str, fn: Optional[callable] = None) -> Union[str, bytes,
+    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes,
                                                             int, float, None]:
         """
         Retrieve data from Redis by key and apply a function if provided.
@@ -43,14 +43,27 @@ class Cache:
             fn (Optional[callable]): A function to apply to the retrieved data.
         
         Returns:
-            Union[str, bytes, int, float]: The retrieved data, possibly transformed by fn.
+            Union[str, bytes, int, float]:The data, possibly transformed by fn
         """
-        if not isinstance(key, str):
-            value = self._redis.get(key)
-        
-        if value is None:
+        data = self._redis.get(key)
+        if data is None:
             return None
+        return fn(data) if fn else data
+    
+    def get_str(self, key: str) -> Optional[str]:
+        """
+        Retrieve a string from Redis by key.
         
-        if fn:
-            return fn(value)
-        return value
+        args:
+            self (Cache): The instance of the Cache class.
+            key (str): The key to retrieve the string from. 
+        Returns:
+            Optional[str]: The string value retrieved from Redis, or None n/f. 
+        
+        This method decodes the bytes to a string using UTF-8 encoding.
+        If the key does not exist, it returns None.
+        It uses the get method with a lambda function to decode the bytes.
+        The lambda function is used to convert the bytes to a string.       
+        """    
+        
+        return self.get(key, fn= lambda d: d.decode("utf-8"))
