@@ -77,6 +77,7 @@ class Cache:
             key (str): The key to retrieve the integer from"""
         return self.get(key, fn=int)
     
+    
     # Test cases and test code should be outside the class definition
     
     TEST_CASES = {
