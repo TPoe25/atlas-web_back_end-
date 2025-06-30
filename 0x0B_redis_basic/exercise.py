@@ -76,3 +76,18 @@ class Cache:
             self (Cache): The instance of the Cache class.
             key (str): The key to retrieve the integer from"""
         return self.get(key, fn=int)
+    
+    # Test cases and test code should be outside the class definition
+    def TEST_CASES(): {
+        b"foo": None,
+        123: int,
+        "bar": lambda d: d.decode("utf-8")
+    }
+    
+    
+    for value, fn in TEST_CASES.items():
+        key = store(value)
+        assert get(key, fn=fn) == value
+    for value, fn in TEST_CASES.items():
+        key = store(value)
+        assert get(key, fn=fn) == value
