@@ -88,7 +88,8 @@ class Cache:
     
     for value, fn in TEST_CASES.items():
         key = store(value)
-        assert get(key, fn=fn) == value
+        assert get_str(key, fn=fn) == value
     for value, fn in TEST_CASES.items():
         key = store(value)
-        assert get(key, fn=fn) == value
+        assert get_int(key, fn=fn) == value
+  
