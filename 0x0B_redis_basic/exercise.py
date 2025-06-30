@@ -78,7 +78,8 @@ class Cache:
         return self.get(key, fn=int)
     
     # Test cases and test code should be outside the class definition
-    def TEST_CASES(): {
+    
+    TEST_CASES = {
         b"foo": None,
         123: int,
         "bar": lambda d: d.decode("utf-8")
